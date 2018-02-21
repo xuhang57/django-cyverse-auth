@@ -6,7 +6,7 @@ import shutil
 
 from setuptools import setup, find_packages
 
-from django_cyverse_auth import __version__
+from django_giji_auth import __version__
 
 
 requirements = open("requirements.txt").read()
@@ -26,20 +26,20 @@ if sys.argv[-1] == 'publish':
     print("  git push --tags")
     shutil.rmtree('dist')
     shutil.rmtree('build')
-    shutil.rmtree('django_cyverse_auth.egg-info')
+    shutil.rmtree('django_giji_auth.egg-info')
     sys.exit()
 
 
 setup(
-    name='django-cyverse-auth',
+    name='django-giji-auth',
     version=__version__,
-    author='CyVerse',
-    author_email='atmodevs@gmail.com',
-    description="Authentication support for CyVerse Django applications.",
+    author='MOC-GIJI',
+    author_email='xuh@massopen.cloud',
+    description="Authentication support for GIJI Django applications.",
     install_requires=requirements,
     license="BSD License, 3 clause",
     packages=find_packages(),
-    url="https://github.com/CyVerse/django-cyverse-auth",
+    url="https://github.com/CCI-MOC/django-giji-auth",
     classifiers=[
         "Development Status :: 4 - Beta",
         "Environment :: Web Environment",

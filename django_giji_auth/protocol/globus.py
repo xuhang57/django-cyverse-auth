@@ -8,11 +8,11 @@ from django.utils import timezone
 from oauth2client.client import OAuth2WebServerFlow
 from oauth2client.client import Error as OAuthError
 
-from django_cyverse_auth.models import (
+from django_giji_auth.models import (
     get_or_create_user, get_or_create_token,
     create_access_token, get_access_token)
-from django_cyverse_auth.settings import auth_settings
-from django_cyverse_auth.exceptions import Unauthorized
+from django_giji_auth.settings import auth_settings
+from django_giji_auth.exceptions import Unauthorized
 
 import logging
 logger = logging.getLogger(__name__)

@@ -1,4 +1,4 @@
-# django-cyverse-auth
+# django-giji-auth
 _Formerly, django-iplant-auth_
 
 A django 'app' that provides easy compatibility with

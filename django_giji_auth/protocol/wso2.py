@@ -8,7 +8,7 @@ from urlparse import urlparse
 
 from django.contrib.auth import get_user_model
 from django.conf import settings
-from django_cyverse_auth.exceptions import Unauthorized
+from django_giji_auth.exceptions import Unauthorized
 from .jwt_oauth import JWTServiceProvider
 import logging
 logger = logging.getLogger(__name__)

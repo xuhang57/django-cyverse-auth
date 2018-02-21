@@ -1,5 +1,5 @@
 from abc import ABCMeta, abstractmethod
-from django_cyverse_auth.models import get_or_create_token
+from django_giji_auth.models import get_or_create_token
 
 
 class JWTServiceProvider():

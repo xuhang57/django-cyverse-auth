@@ -3,8 +3,8 @@
 Routes for authentication services
 """
 from django.conf.urls import url
-from django_cyverse_auth import views
-from django_cyverse_auth.protocol.cas import (
+from django_giji_auth import views
+from django_giji_auth.protocol.cas import (
         cas_loginRedirect, cas_validateTicket,
         cas_proxyCallback, cas_storeProxyIOU_ID,
         saml_validateTicket

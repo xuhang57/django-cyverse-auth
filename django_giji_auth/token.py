@@ -206,7 +206,7 @@ class OpenstackTokenAuthentication(TokenAuthentication):
     def authenticate(self, request):
         """
         TODO: This method might take an already-logged in user who possesses a KEYSTONE TOKEN -- one could then determine if the token was still 'valid' and use that truth-value to authenticate the request.
-        The entire user-object would need to be returned, and the dependencies for this method would have to include rtwo/openstacksdk which might make this entire process out-of-scope for django-cyverse-auth
+        The entire user-object would need to be returned, and the dependencies for this method would have to include rtwo/openstacksdk which might make this entire process out-of-scope for django-giji-auth
         TODO: Ideally, more things would be passed through headers to tell us:
             - What KEYSTONE_SERVER to authenticate with
             - What the username or other information is *expected* to be..
@@ -287,7 +287,7 @@ class OAuthTokenAuthentication(TokenAuthentication):
         auth = request.META.get('HTTP_AUTHORIZATION', '').split()
         if len(auth) == 2 and auth[0].lower() == "token":
             oauth_token = auth[1]
-            if 'django_cyverse_auth.authBackends.MockLoginBackend' in all_backends:
+            if 'django_giji_auth.authBackends.MockLoginBackend' in all_backends:
                 user, token = self._mock_oauth_login(oauth_token)
                 user_logged_in.send(
                     sender=user.__class__, request=request, user=user)
@@ -361,7 +361,7 @@ def validate_token(token, request=None):
         user = auth_token.user
     except AuthToken.DoesNotExist:
         all_backends = settings.AUTHENTICATION_BACKENDS
-        if 'django_cyverse_auth.authBackends.MockLoginBackend' in all_backends:
+        if 'django_giji_auth.authBackends.MockLoginBackend' in all_backends:
             logger.info(
                 "IGNORED -- AuthToken Retrieved:%s Does not exist. "
                 "-- Validate anyway (Mock enabled)" % (token,))

@@ -37,8 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # NOTE: Demo should include django_cyverse_auth as one of the INSTALLED_APPS
-    'django_cyverse_auth',
+    # NOTE: Demo should include django_giji_auth as one of the INSTALLED_APPS
+    'django_giji_auth',
 ]
 
 MIDDLEWARE = [

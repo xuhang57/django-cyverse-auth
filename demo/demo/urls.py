@@ -18,5 +18,5 @@ from django.contrib import admin
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    include(r'^auth/', include('django_cyverse_auth.urls')),
+    include(r'^auth/', include('django_giji_auth.urls')),
 ]
