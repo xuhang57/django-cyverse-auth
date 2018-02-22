@@ -311,8 +311,8 @@ class OpenstackLoginBackend(ModelBackend):
     strategy = "keystone"
 
     def authenticate(self, request, username, password, project_name=None, auth_url=None, token=None, domain=None):
-        if not project_name:
-            project_name = username
+        # if not project_name:
+        #     project_name = username
 
         if not auth_url:
             auth_url = auth_settings.KEYSTONE_SERVER
@@ -357,8 +357,8 @@ class OpenstackLoginBackend(ModelBackend):
         try:
             expiry_time = password_auth.auth_ref.expires
             email = self._lookup_email(ks_session)
-            _, token = self._keystone_auth_to_token(password_auth, username, project_name)
-            return self._update_token(auth_url, username, token, email, expiry_time, request)
+            _, token, project_name = self._keystone_auth_to_token(password_auth, username, project_name)
+            return self._update_token(auth_url, username, token, email, expiry_time, project_name, request)
         except:
             logger.exception("Error parsing keystone auth by password")
             return None
@@ -378,8 +378,8 @@ class OpenstackLoginBackend(ModelBackend):
         expiry_time = token_auth.auth_ref.expires
         try:
             email = self._lookup_email(ks_session)
-            self._keystone_auth_to_token(token_auth, username, project_name)
-            return self._update_token(auth_url, username, token, email, expiry_time, request)
+            _, token, project_name = self._keystone_auth_to_token(token_auth, username, project_name)
+            return self._update_token(auth_url, username, token, email, expiry_time, project_name, request)
         except:
             logger.exception("Error validating keystone auth by token")
             return None
@@ -406,11 +406,12 @@ class OpenstackLoginBackend(ModelBackend):
             logger.exception("DATA CHANGED -- update value to match new token_data: %s" % token_data)
             raise
 
-        if token_project_name != project_name:
-            raise Exception("Token %s does not match expected project name - %s" % token_key, project_name)
+        project_name = token_project_name
+        # if token_project_name != project_name:
+        #     raise Exception("Token %s does not match expected project name - %s" % token_key, project_name)
         if token_username != username:
             raise Exception("Token %s does not match expected username - %s" % token_key, username)
-        return ks_session, token_key
+        return ks_session, token_key, project_name
     #Alternative method -- libcloud 'strategy'
 
     def auth_by_libcloud(self, auth_url, project_name, domain, username, password=None, token=None, request=None):
@@ -468,7 +469,7 @@ class OpenstackLoginBackend(ModelBackend):
         }
         return user_profile
 
-    def _update_token(self, auth_url, username, token, email, expiry_time, request=None):
+    def _update_token(self, auth_url, username, token, email, expiry_time, project request=None):
         user_profile = self._user_profile_for_auth(auth_url, username, email)
         user = get_or_create_user(user_profile['username'], user_profile)
         auth_token = get_or_create_token(user, token, token_expire=expiry_time, issuer="OpenstackLoginBackend")
@@ -476,6 +477,7 @@ class OpenstackLoginBackend(ModelBackend):
         if request:
             request.session['token_key'] = auth_token.key
             request.session['token_expire_time'] = str(expiry_time)[:19]
+            request.session['token_project_name'] = project_name
         return user
 
     def _grant_access(self, auth_url, username):
