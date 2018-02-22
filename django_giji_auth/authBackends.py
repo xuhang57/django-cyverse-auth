@@ -469,7 +469,7 @@ class OpenstackLoginBackend(ModelBackend):
         }
         return user_profile
 
-    def _update_token(self, auth_url, username, token, email, expiry_time, project request=None):
+    def _update_token(self, auth_url, username, token, email, expiry_time, project_name, request=None):
         user_profile = self._user_profile_for_auth(auth_url, username, email)
         user = get_or_create_user(user_profile['username'], user_profile)
         auth_token = get_or_create_token(user, token, token_expire=expiry_time, issuer="OpenstackLoginBackend")
