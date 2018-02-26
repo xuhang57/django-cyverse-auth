@@ -10,7 +10,7 @@ install:
 - pip install -U pip setuptools pip-tools
 - pip install -r dev_requirements.txt
 script:
-- echo "Hello world, I'll do something real useful.. Real soon!"
+  - python setup.py install
 deploy:
   provider: pypi
   user: xuhang57
